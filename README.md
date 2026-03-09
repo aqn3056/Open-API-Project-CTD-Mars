@@ -3,6 +3,7 @@ Open API Weather Project:
 
 How to run:
     - Clone or download this repository
+    
     Repo clone:
     - Open the project folder after cloning. Then start a Live Preview Server in command palette
 
