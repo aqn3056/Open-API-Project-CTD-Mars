@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meteo Weather</title>
+  <meta name="description" content="A weather dashboard powered by Open-Meteo API" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <span class="logo-text">Meteo</span>
+        </div>
+        <button class="unit-toggle" id="unit-toggle">&deg;F &rarr; &deg;C</button>
+      </div>
+    </header>
+
+    <!-- Search Bar -->
+    <section class="search-section">
+      <div class="search-container">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="city-input" placeholder="Search for a city..." autocomplete="off" />
+          <button id="search-btn" class="search-btn">Search</button>
+        </div>
+        <div id="suggestions" class="suggestions hidden"></div>
+      </div>
+    </section>
+
+    <!-- Nav Tabs -->
+    <div class="nav-section">
+      <nav class="nav">
+        <button class="nav-btn active" data-view="temperature" id="nav-temp">Temperature</button>
+        <button class="nav-btn" data-view="conditions" id="nav-cond">Conditions</button>
+      </nav>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Fetching weather data...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div id="error" class="error-msg hidden"></div>
+
+    <!-- Main Content -->
+    <main id="content" class="content hidden">
+      <!-- Location Header -->
+      <div class="location-header">
+        <h1 id="location-name" class="location-name"></h1>
+        <p id="location-coords" class="location-coords"></p>
+      </div>
+
+      <!-- View Wrapper (slides left/right) -->
+      <div class="view-wrapper" id="view-wrapper">
+
+      <!-- Temperature View -->
+      <div id="view-temperature" class="view">
+        <!-- Current Temperature Card -->
+        <div class="current-card">
+          <div class="current-card-main">
+            <div id="current-weather-icon" class="current-weather-icon"></div>
+            <div class="current-temp-display">
+              <span id="current-temp" class="current-temp-value"></span>
+              <span class="current-temp-unit">&deg;</span>
+            </div>
+            <p id="current-weather-desc" class="current-weather-desc"></p>
+            <p id="current-feels-like" class="feels-like"></p>
+          </div>
+          <div class="stat-cards" id="temp-stat-cards">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Hourly Temp -->
+        <div class="card">
+          <h2 class="card-title">Hourly Forecast</h2>
+          <div id="hourly-temp-chart" class="hourly-scroll"></div>
+        </div>
+
+        <!-- 7-Day Forecast Temps -->
+        <div class="card">
+          <h2 class="card-title">7-Day Forecast</h2>
+          <div id="daily-temp-list" class="daily-list"></div>
+        </div>
+      </div>
+
+      <!-- Conditions View -->
+      <div id="view-conditions" class="view">
+        <!-- Current Conditions Card -->
+        <div class="current-card">
+          <div class="current-card-main">
+            <div id="current-condition-icon" class="condition-icon-large"></div>
+            <div>
+              <p id="current-condition-text" class="current-label" style="font-size:1.25rem;font-weight:600;color:var(--text);"></p>
+              <p id="current-condition-desc" class="feels-like"></p>
+            </div>
+          </div>
+          <div class="stat-cards" id="cond-stat-cards">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Hourly Conditions -->
+        <div class="card">
+          <h2 class="card-title">Hourly Forecast</h2>
+          <div id="hourly-cond-chart" class="hourly-scroll"></div>
+        </div>
+
+        <!-- 7-Day Forecast Conditions -->
+        <div class="card">
+          <h2 class="card-title">7-Day Forecast</h2>
+          <div id="daily-cond-list" class="daily-list"></div>
+        </div>
+      </div>
+
+      </div> <!-- /view-wrapper -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Powered by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo API</a></p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
