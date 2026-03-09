@@ -122,6 +122,23 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: 9999px;
   padding: 4px;
+  position: relative;
+}
+
+.nav-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  width: calc(50% - 4px);
+  background: var(--primary);
+  border-radius: 9999px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.nav-indicator.at-conditions {
+  transform: translateX(calc(100% + 0.25rem));
 }
 
 .nav-btn {
@@ -137,7 +154,9 @@ a:hover { text-decoration: underline; }
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
 }
 
 .nav-btn:hover {
@@ -145,7 +164,6 @@ a:hover { text-decoration: underline; }
 }
 
 .nav-btn.active {
-  background: var(--primary);
   color: #0f172a;
 }
 

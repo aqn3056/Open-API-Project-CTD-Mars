@@ -336,6 +336,7 @@ function renderConditionsView(data) {
 
 // View switching & fetching
 const viewWrapper = document.getElementById("view-wrapper");
+const navIndicator = document.getElementById("nav-indicator");
 
 function applyViewSlide() {
   if (state.currentView === "conditions") {
@@ -345,11 +346,14 @@ function applyViewSlide() {
   }
 }
 
-async function fetchCurrentView() {
+async function fetchCurrentView(isTabSwitch) {
   if (!state.location) return;
   var lat = state.location.latitude;
   var lon = state.location.longitude;
-  showLoading();
+
+  if (!isTabSwitch) {
+    showLoading();
+  }
   renderLocationHeader();
 
   try {
@@ -360,8 +364,10 @@ async function fetchCurrentView() {
       var condData = await fetchConditionsData(lat, lon);
       renderConditionsView(condData);
     }
-    showContent();
-    applyViewSlide();
+    if (!isTabSwitch) {
+      showContent();
+      applyViewSlide();
+    }
   } catch (err) {
     showError("Unable to fetch weather data. Please try again. (" + err.message + ")");
   }
@@ -372,7 +378,10 @@ function switchView(view) {
   state.currentView = view;
   navTemp.classList.toggle("active", view === "temperature");
   navCond.classList.toggle("active", view === "conditions");
-  fetchCurrentView();
+  // Apply slide immediately so the animation plays while data loads in background
+  applyViewSlide();
+  navIndicator.classList.toggle("at-conditions", view === "conditions");
+  fetchCurrentView(true);
 }
 
 // Event Listeners
